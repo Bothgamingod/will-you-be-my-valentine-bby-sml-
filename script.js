@@ -1,93 +1,73 @@
 "use strict";
 
+const tontonGifs = [
+  "https://media.tenor.com/TUVAE2M_wz4AAAAi/chubby-tonton.gif",
+  "https://media.tenor.com/pZk_U5JVWzUAAAAi/tonton-friends-tonton.gif",
+  "https://media.tenor.com/Jkha__Yjf0oAAAAi/sad-depression.gif",
+  "https://media.tenor.com/U0OPHZokzkUAAAAi/what-seriously.gif",
+  "https://media.tenor.com/WKXMmSk3JJsAAAAi/chubby-tonton.gif",
+  "https://media.tenor.com/ZHWV13jliTAAAAAi/chubby-tonton.gif",
+];
+
 const title = document.querySelector(".title");
 const btnContainer = document.querySelector(".buttons");
 const yesBtn = document.querySelector(".btn-yes");
 const noBtn = document.querySelector(".btn-no");
+const img = document.querySelector(".img");
 
-let clickCount = 0;
-let dodging = false;
+const MAX_IMAGES = 5;
+let play = true;
+let noCount = 0;
+let noButtonSize = 1;
+let yesButtonSize = 1;
 
-let yesSize = 1;
-let noSize = 1;
-
-// Sequence of messages
-const messages = [
-  "ot sl nh he men? 🥺",
-  "yor nh hv nh smos hah 🥹",
-  "ot ey heh jg :( 😭",
-  "chop sl nh hy men? 💔",
-  "Nh yum leryyy... 😭💔"
-];
-
-// --- Yes button ---
 yesBtn.addEventListener("click", () => {
-  title.textContent = "Yay! I Love You pov meas!! 💗";
+  title.innerHTML = "Yay! I Love You pov meas!! 💗";
   btnContainer.classList.add("hidden");
+  changeImage("yes");
 });
 
-// --- No button click sequence ---
 noBtn.addEventListener("click", () => {
-  if (!dodging) {
-    if (clickCount < messages.length - 1) {
-      clickCount++;
-      noBtn.textContent = messages[clickCount];
-
-      // Grow Yes, shrink No
-      yesSize *= 1.1;
-      noSize *= 0.9;
-      yesBtn.style.transform = scale(${yesSize});
-      noBtn.style.transform = scale(${noSize});
-
-    } else if (clickCount === messages.length - 1) {
-      // Last message clicked: reset page
-      title.textContent = "Will you be my valentine?";
-      noBtn.textContent = "No";
-
-      // Reset sizes
-      yesSize = 1;
-      noSize = 1;
-      yesBtn.style.transform = scale(${yesSize});
-      noBtn.style.transform = scale(${noSize});
-
-      // Set button position exactly where it is to avoid jumping
-      const rect = noBtn.getBoundingClientRect();
-      const containerRect = document.body.getBoundingClientRect();
-      const left = rect.left - containerRect.left;
-      const top = rect.top - containerRect.top;
-
-      noBtn.style.position = "absolute";
-      noBtn.style.left = left + "px";
-      noBtn.style.top = top + "px";
-
-      clickCount = 0;
-
-      // Activate dodging after a tiny delay
-      setTimeout(() => {
-        dodging = true;
-      }, 50);
-    }
+  if (play) {
+    noCount++;
+    const imageIndex = Math.min(noCount, MAX_IMAGES);
+    changeImage(imageIndex);
+    resizeYesButton();
+    shrinkNoButton();
+    updateNoButtonText();
+    if (noCount === MAX_IMAGES) play = false;
   }
 });
 
-// --- Dodging behavior ---
-function moveNoButton() {
-  const maxX = window.innerWidth - noBtn.offsetWidth;
-  const maxY = window.innerHeight - noBtn.offsetHeight;
-
-  noBtn.style.left = Math.floor(Math.random() * maxX) + "px";
-  noBtn.style.top = Math.floor(Math.random() * maxY) + "px";
+function resizeYesButton() {
+  yesButtonSize *= 1.2;
+  yesBtn.style.transform = scale(${yesButtonSize});
 }
 
-// Desktop: dodge on mouse hover
-noBtn.addEventListener("mouseenter", () => {
-  if (dodging) moveNoButton();
-});
+function shrinkNoButton() {
+  noButtonSize *= 0.90;
+  noBtn.style.transform = scale(${noButtonSize});
+}
 
-// Mobile: dodge on tap
-noBtn.addEventListener("touchstart", (e) => {
-  if (dodging) {
-    e.preventDefault();
-    moveNoButton();
-  }
-});
+function generateMessage(noCount) {
+  const messages = [
+    "No 😔",
+    "ot sl nh he men? 🥺",
+    "yor nh hv nh smos hah🥹",
+    "ot ey heh jg :( 😭",
+    "chop sl nh hy men? 💔",
+    "Nh yum leryyy... 😭💔",
+  ];
+  return messages[Math.min(noCount, messages.length - 1)];
+}
+
+function changeImage(image) {
+  img.src =
+    image === "yes"
+      ? "https://media.tenor.com/ACi1vdjNbpIAAAAi/%EC%9C%A0%ED%83%80-%ED%86%A4%ED%86%A4%ED%94%84%EB%A0%8C%EC%A6%88.gif"
+      : tontonGifs[image];
+}
+
+function updateNoButtonText() {
+  noBtn.innerHTML = generateMessage(noCount);
+}
