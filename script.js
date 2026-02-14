@@ -29,11 +29,14 @@ noBtn.addEventListener("click", () => {
     if (clickCount < messages.length - 1) {
       clickCount++;
       noBtn.textContent = messages[clickCount];
-    } else {
-      // Last message clicked -> restart page and activate dodging
+    } else if (clickCount === messages.length - 1) {
+      // Last message clicked: allow this click
       clickCount = 0;
       noBtn.textContent = "No";
-      dodging = true;
+      // Activate dodging after click finishes
+      setTimeout(() => {
+        dodging = true;
+      }, 100); // short delay to allow click
     }
   }
 });
