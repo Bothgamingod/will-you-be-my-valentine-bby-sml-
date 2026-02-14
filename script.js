@@ -22,7 +22,7 @@ let noButtonSize = 1;
 let yesButtonSize = 1;
 
 yesBtn.addEventListener("click", () => {
-  title.innerHTML = "Yay! I Love You pov meas!! 💗";
+  title.innerHTML = "awWhh babe hre! I Love You pov meas!! 💕";
   btnContainer.classList.add("hidden");
   changeImage("yes");
 });
@@ -52,11 +52,11 @@ function shrinkNoButton() {
 function generateMessage(noCount) {
   const messages = [
     "No 😔",
-    "ot sl nh he men? 🥺",
+    "ot sl nh he men? 😖",
     "yor nh hv nh smos hah🥹",
-    "ot ey heh jg :( 😭",
+    "ot ey heh jg :( 🙁",
     "chop sl nh hy men? 💔",
-    "Nh yum leryyy... 😭💔",
+    "Nh yum leryyy... 😭",
   ];
   return messages[Math.min(noCount, messages.length - 1)];
 }
@@ -71,3 +71,43 @@ function changeImage(image) {
 function updateNoButtonText() {
   noBtn.innerHTML = generateMessage(noCount);
 }
+// --- Make No button dodge after last message ---
+function moveNoButton() {
+  const maxX = window.innerWidth - noBtn.offsetWidth;
+  const maxY = window.innerHeight - noBtn.offsetHeight;
+
+  noBtn.style.left = Math.floor(Math.random() * maxX) + "px";
+  noBtn.style.top = Math.floor(Math.random() * maxY) + "px";
+}
+
+let dodging = false;
+
+// Activate dodging when the last message is clicked
+noBtn.addEventListener("click", () => {
+  if (!play && !dodging) {
+    dodging = true;
+
+    // Set current position before making it absolute to prevent jump
+    const rect = noBtn.getBoundingClientRect();
+    noBtn.style.position = "absolute";
+    noBtn.style.left = rect.left + "px";
+    noBtn.style.top = rect.top + "px";
+
+    // Optional: ensure Yes button stays on top
+    yesBtn.style.zIndex = "1";
+    noBtn.style.zIndex = "2";
+  }
+});
+
+// Desktop: dodge on hover
+noBtn.addEventListener("mouseenter", () => {
+  if (dodging) moveNoButton();
+});
+
+// Mobile: dodge on touch
+noBtn.addEventListener("touchstart", (e) => {
+  if (dodging) {
+    e.preventDefault();
+    moveNoButton();
+  }
+});
