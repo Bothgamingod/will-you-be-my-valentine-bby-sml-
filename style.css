@@ -13,7 +13,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  overflow: hidden;
+  overflow: hidden; /* prevent scrolling */
 }
 
 .container {
@@ -73,7 +73,7 @@ body {
 .btn-no {
   background-color: rgb(166, 37, 82);
   color: white;
-  position: relative; /* initial, becomes absolute on dodge */
+  position: relative; /* becomes absolute only when dodging */
 }
 
 .hidden {
