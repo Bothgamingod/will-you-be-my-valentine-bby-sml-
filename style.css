@@ -84,3 +84,7 @@ body {
 .hidden {
   display: none;
 }
+.btn-no {
+  position: absolute; /* required for movement */
+  cursor: pointer;
+}
