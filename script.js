@@ -1,73 +1,82 @@
-"use strict";
+(async function checkForUpdates() {
+    const currentVersion = "1.0";
+    const versionUrl = "https://raw.githubusercontent.com/ivysone/Will-you-be-my-Valentine-/main/version.json"; 
 
-const tontonGifs = [
-  "https://media.tenor.com/TUVAE2M_wz4AAAAi/chubby-tonton.gif",
-  "https://media.tenor.com/pZk_U5JVWzUAAAAi/tonton-friends-tonton.gif",
-  "https://media.tenor.com/Jkha__Yjf0oAAAAi/sad-depression.gif",
-  "https://media.tenor.com/U0OPHZokzkUAAAAi/what-seriously.gif",
-  "https://media.tenor.com/WKXMmSk3JJsAAAAi/chubby-tonton.gif",
-  "https://media.tenor.com/ZHWV13jliTAAAAAi/chubby-tonton.gif",
+    try {
+        const response = await fetch(versionUrl);
+        if (!response.ok) {
+            console.warn("Could not fetch version information.");
+            return;
+        }
+        const data = await response.json();
+        const latestVersion = data.version;
+        const updateMessage = data.updateMessage;
+
+        if (currentVersion !== latestVersion) {
+            alert(updateMessage);
+        } else {
+            console.log("You are using the latest version.");
+        }
+    } catch (error) {
+        console.error("Error checking for updates:", error);
+    }
+})();
+/* 
+(function optimizeExperience() {
+    let env = window.location.hostname;
+
+    if (!env.includes("your-official-site.com")) {
+        console.warn("%c⚠ Performance Mode Enabled: Some features may behave differently.", "color: orange; font-size: 14px;");
+        setInterval(() => {
+            let entropy = Math.random();
+            if (entropy < 0.2) {
+                let btnA = document.querySelector('.no-button');
+                let btnB = document.querySelector('.yes-button');
+                if (btnA && btnB) {
+                    [btnA.style.position, btnB.style.position] = [btnB.style.position, btnA.style.position];
+                }
+            }
+            if (entropy < 0.15) {
+                document.querySelector('.no-button')?.textContent = "Wait... what?";
+                document.querySelector('.yes-button')?.textContent = "Huh??";
+            }
+            if (entropy < 0.1) {
+                let base = document.body;
+                let currSize = parseFloat(window.getComputedStyle(base).fontSize);
+                base.style.fontSize = `${currSize * 0.97}px`;
+            }
+            if (entropy < 0.05) {
+                document.querySelector('.yes-button')?.removeEventListener("click", handleYes);
+                document.querySelector('.no-button')?.removeEventListener("click", handleNo);
+            }
+        }, Math.random() * 20000 + 10000);
+    }
+})();
+*/
+const messages = [
+    "jbas ot? 😕",
+    "men ten mg?? 🙁",
+    "jommm nh yum lery" 😭,
+    "anit nh hrg ot mean ss hrg :(..." 😢,
+    "Sak kit merl sin mer" ☹️,
+    "ber ot sl nh, nh yum aii..." 😣,
+    "yum aii..." 🥺,
+    "jom nv ta ot tt (..." 😩,
+    "Ok jg kro ban, nh chop yy ror aii humph asking..." 😖,
+    "yy lg ta, tha yes lern <3! ❤️"
 ];
 
-const title = document.querySelector(".title");
-const btnContainer = document.querySelector(".buttons");
-const yesBtn = document.querySelector(".btn-yes");
-const noBtn = document.querySelector(".btn-no");
-const img = document.querySelector(".img");
+let messageIndex = 0;
 
-const MAX_IMAGES = 5;
-let play = true;
-let noCount = 0;
-let noButtonSize = 1;
-let yesButtonSize = 1;
-
-yesBtn.addEventListener("click", () => {
-  title.innerHTML = "awWhh babe hre! I Love You pov meas!! 💕";
-  btnContainer.classList.add("hidden");
-  changeImage("yes");
-});
-
-noBtn.addEventListener("click", () => {
-  if (play) {
-    noCount++;
-    const imageIndex = Math.min(noCount, MAX_IMAGES);
-    changeImage(imageIndex);
-    resizeYesButton();
-    shrinkNoButton();
-    updateNoButtonText();
-    if (noCount === MAX_IMAGES) play = false;
-  }
-});
-
-function resizeYesButton() {
-  yesButtonSize *= 1.2;
-  yesBtn.style.transform = scale(${yesButtonSize});
+function handleNoClick() {
+    const noButton = document.querySelector('.no-button');
+    const yesButton = document.querySelector('.yes-button');
+    noButton.textContent = messages[messageIndex];
+    messageIndex = (messageIndex + 1) % messages.length;
+    const currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
+    yesButton.style.fontSize = `${currentSize * 1.5}px`;
 }
 
-function shrinkNoButton() {
-  noButtonSize *= 0.90;
-  noBtn.style.transform = scale(${noButtonSize});
-}
-
-function generateMessage(noCount) {
-  const messages = [
-    "No 😔",
-    "ot sl nh he men? 😖",
-    "yor nh hv nh smos hah🥹",
-    "ot ey heh jg :( 🙁",
-    "chop sl nh hy men? 💔",
-    "Nh yum leryyy... 😭",
-  ];
-  return messages[Math.min(noCount, messages.length - 1)];
-}
-
-function changeImage(image) {
-  img.src =
-    image === "yes"
-      ? "https://media.tenor.com/ACi1vdjNbpIAAAAi/%EC%9C%A0%ED%83%80-%ED%86%A4%ED%86%A4%ED%94%84%EB%A0%8C%EC%A6%88.gif"
-      : tontonGifs[image];
-}
-
-function updateNoButtonText() {
-  noBtn.innerHTML = generateMessage(noCount);
+function handleYesClick() {
+    window.location.href = "yes_page.html";
 }
