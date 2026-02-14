@@ -8,7 +8,7 @@ const noBtn = document.querySelector(".btn-no");
 let clickCount = 0;
 let dodging = false;
 
-// Messages sequence
+// Sequence of messages
 const messages = [
   "ot sl nh he men? 🥺",
   "yor nh hv nh smos hah 🥹",
@@ -30,35 +30,37 @@ noBtn.addEventListener("click", () => {
       clickCount++;
       noBtn.textContent = messages[clickCount];
     } else if (clickCount === messages.length - 1) {
-      // Last message clicked: allow this click
-      clickCount = 0;
+      // Last message clicked: reset page to main view
+      title.textContent = "Will you be my valentine?";
       noBtn.textContent = "No";
-      // Activate dodging after click finishes
+      clickCount = 0;
+      // Activate dodging after short delay
       setTimeout(() => {
         dodging = true;
-      }, 100); // short delay to allow click
+      }, 100);
     }
   }
 });
 
 // --- Dodging behavior ---
-function moveButtonRandom() {
+function moveNoButton() {
   const maxX = window.innerWidth - noBtn.offsetWidth;
   const maxY = window.innerHeight - noBtn.offsetHeight;
+
   noBtn.style.position = "absolute";
   noBtn.style.left = Math.floor(Math.random() * maxX) + "px";
   noBtn.style.top = Math.floor(Math.random() * maxY) + "px";
 }
 
-// Desktop: dodge on mouseover
+// Desktop: dodge on mouse enter
 noBtn.addEventListener("mouseenter", () => {
-  if (dodging) moveButtonRandom();
+  if (dodging) moveNoButton();
 });
 
 // Mobile: dodge on touch
 noBtn.addEventListener("touchstart", (e) => {
   if (dodging) {
     e.preventDefault();
-    moveButtonRandom();
+    moveNoButton();
   }
 });
