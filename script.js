@@ -22,7 +22,7 @@ let noButtonSize = 1;
 let yesButtonSize = 1;
 
 yesBtn.addEventListener("click", () => {
-  title.innerHTML = "Yay! I Love You pov meas!! 💗";
+  title.innerHTML = "Yay! I Love You!! 💗";
   btnContainer.classList.add("hidden");
   changeImage("yes");
 });
@@ -41,22 +41,22 @@ noBtn.addEventListener("click", () => {
 
 function resizeYesButton() {
   yesButtonSize *= 1.2;
-  yesBtn.style.transform = scale(${yesButtonSize});
+  yesBtn.style.transform = `scale(${yesButtonSize})`;
 }
 
 function shrinkNoButton() {
   noButtonSize *= 0.90;
-  noBtn.style.transform = scale(${noButtonSize});
+  noBtn.style.transform = `scale(${noButtonSize})`;
 }
 
 function generateMessage(noCount) {
   const messages = [
     "No 😔",
     "ot sl nh he men? 🥺",
-    "yor nh hv nh smos hah🥹",
-    "ot ey heh jg :( 😭",
+    "yor nh hv nh smos hah 🥹",
+    "ot ey heh jg :( 😖",
     "chop sl nh hy men? 💔",
-    "Nh yum leryyy... 😭💔",
+    "Nh yum leryyy... 😭",
   ];
   return messages[Math.min(noCount, messages.length - 1)];
 }
