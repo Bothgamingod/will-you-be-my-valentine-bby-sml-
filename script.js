@@ -71,26 +71,32 @@ function changeImage(image) {
 function updateNoButtonText() {
   noBtn.innerHTML = generateMessage(noCount);
 }
-// Runaway No button
+// Make the No button move away like the messages
 document.addEventListener("mousemove", (e) => {
-  const x = e.clientX;
-  const y = e.clientY;
+  if (!play) return; // Stop moving after MAX_IMAGES reached
+
+  const mouseX = e.clientX;
+  const mouseY = e.clientY;
 
   const rect = noBtn.getBoundingClientRect();
-  const offset = 50; // how close the mouse has to be
+  const offset = 70; // how close the mouse can get
 
+  // Check if mouse is near the button
   if (
-    x > rect.left - offset &&
-    x < rect.right + offset &&
-    y > rect.top - offset &&
-    y < rect.bottom + offset
+    mouseX > rect.left - offset &&
+    mouseX < rect.right + offset &&
+    mouseY > rect.top - offset &&
+    mouseY < rect.bottom + offset
   ) {
-    const maxX = window.innerWidth - rect.width;
-    const maxY = window.innerHeight - rect.height;
-    const randomX = Math.floor(Math.random() * maxX);
-    const randomY = Math.floor(Math.random() * maxY);
+    // Move button slightly randomly but more like "dodging" style
+    let moveX = rect.left + (Math.random() > 0.5 ? 80 : -80);
+    let moveY = rect.top + (Math.random() > 0.5 ? 50 : -50);
 
-    noBtn.style.left = randomX + "px";
-    noBtn.style.top = randomY + "px";
+    // Keep inside the window
+    moveX = Math.max(0, Math.min(moveX, window.innerWidth - rect.width));
+    moveY = Math.max(0, Math.min(moveY, window.innerHeight - rect.height));
+
+    noBtn.style.left = moveX + "px";
+    noBtn.style.top = moveY + "px";
   }
 });
