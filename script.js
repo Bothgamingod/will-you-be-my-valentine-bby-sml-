@@ -71,31 +71,3 @@ function changeImage(image) {
 function updateNoButtonText() {
   noBtn.innerHTML = generateMessage(noCount);
 }
-// Make the No button dodge only after the last message
-document.addEventListener("mousemove", (e) => {
-  // Only dodge after the last message appears
-  if (noCount < MAX_IMAGES) return; // MAX_IMAGES is the last index
-
-  const mouseX = e.clientX;
-  const mouseY = e.clientY;
-  const rect = noBtn.getBoundingClientRect();
-  const offset = 70; // distance before it moves
-
-  // If mouse is close to the button
-  if (
-    mouseX > rect.left - offset &&
-    mouseX < rect.right + offset &&
-    mouseY > rect.top - offset &&
-    mouseY < rect.bottom + offset
-  ) {
-    // Move button randomly, but stay inside window
-    let moveX = rect.left + (Math.random() > 0.5 ? 80 : -80);
-    let moveY = rect.top + (Math.random() > 0.5 ? 50 : -50);
-
-    moveX = Math.max(0, Math.min(moveX, window.innerWidth - rect.width));
-    moveY = Math.max(0, Math.min(moveY, window.innerHeight - rect.height));
-
-    noBtn.style.left = moveX + "px";
-    noBtn.style.top = moveY + "px";
-  }
-});
