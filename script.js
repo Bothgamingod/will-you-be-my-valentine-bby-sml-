@@ -8,7 +8,10 @@ const noBtn = document.querySelector(".btn-no");
 let clickCount = 0;
 let dodging = false;
 
-// Messages sequence
+let yesSize = 1;
+let noSize = 1;
+
+// Sequence of messages
 const messages = [
   "ot sl nh he men? 🥺",
   "yor nh hv nh smos hah 🥹",
@@ -23,23 +26,46 @@ yesBtn.addEventListener("click", () => {
   btnContainer.classList.add("hidden");
 });
 
-// --- No button ---
+// --- No button click sequence ---
 noBtn.addEventListener("click", () => {
   if (!dodging) {
     if (clickCount < messages.length - 1) {
       clickCount++;
       noBtn.textContent = messages[clickCount];
+
+      // Grow Yes, shrink No
+      yesSize *= 1.1;
+      noSize *= 0.9;
+      yesBtn.style.transform = scale(${yesSize});
+      noBtn.style.transform = scale(${noSize});
+
     } else if (clickCount === messages.length - 1) {
       // Last message clicked: reset page
       title.textContent = "Will you be my valentine?";
       noBtn.textContent = "No";
+
+      // Reset sizes
+      yesSize = 1;
+      noSize = 1;
+      yesBtn.style.transform = scale(${yesSize});
+      noBtn.style.transform = scale(${noSize});
+
+      // Set button position exactly where it is to avoid jumping
+      const rect = noBtn.getBoundingClientRect();
+      const containerRect = document.body.getBoundingClientRect();
+      const left = rect.left - containerRect.left;
+      const top = rect.top - containerRect.top;
+
+      noBtn.style.position = "absolute";
+      noBtn.style.left = left + "px";
+      noBtn.style.top = top + "px";
+
       clickCount = 0;
 
-      // Activate dodging AFTER reset
+      // Activate dodging after a tiny delay
       setTimeout(() => {
         dodging = true;
-        noBtn.style.position = "absolute"; // make it absolute now
-      }, 100);
+      }, 50);
     }
   }
 });
