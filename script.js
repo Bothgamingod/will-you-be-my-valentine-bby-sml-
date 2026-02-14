@@ -71,3 +71,26 @@ function changeImage(image) {
 function updateNoButtonText() {
   noBtn.innerHTML = generateMessage(noCount);
 }
+// Runaway No button
+document.addEventListener("mousemove", (e) => {
+  const x = e.clientX;
+  const y = e.clientY;
+
+  const rect = noBtn.getBoundingClientRect();
+  const offset = 50; // how close the mouse has to be
+
+  if (
+    x > rect.left - offset &&
+    x < rect.right + offset &&
+    y > rect.top - offset &&
+    y < rect.bottom + offset
+  ) {
+    const maxX = window.innerWidth - rect.width;
+    const maxY = window.innerHeight - rect.height;
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+  }
+});
