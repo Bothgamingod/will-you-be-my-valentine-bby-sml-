@@ -54,16 +54,16 @@
 })();
 */
 const messages = [
-    "jbas ot? 😕",
-    "men ten mg?? 🙁",
-    "jommm nh yum lery" 😭,
-    "anit nh hrg ot mean ss hrg :(..." 😢,
-    "Sak kit merl sin mer" ☹️,
-    "ber ot sl nh, nh yum aii..." 😣,
-    "yum aii..." 🥺,
-    "jom nv ta ot tt (..." 😩,
-    "Ok jg kro ban, nh chop yy ror aii humph asking..." 😖,
-    "yy lg ta, tha yes lern <3! ❤️"
+    "Are you sure?",
+    "Really sure??",
+    "Are you positive?",
+    "Pookie please...",
+    "Just think about it!",
+    "If you say no, I will be really sad...",
+    "I will be very sad...",
+    "I will be very very very sad...",
+    "Ok fine, I will stop asking...",
+    "Just kidding, say yes please! ❤️"
 ];
 
 let messageIndex = 0;
